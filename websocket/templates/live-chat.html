@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chat</title>
+    </head>
+    
+    <body>
+        <h1>WebSocket Chat</h1>
+        <h2>TOKEN</h2>
+        
+            
+        </br>
+    
+        
+        <input type="text" id="messageText" autocomplete="off"/>
+        <button onclick="sendMessage()">Send</button>
+        
+        <ul id='messages'>
+        </ul>
+        <script>
+
+            let ws = null ;
+            let messages = [];
+
+            const connect_websocket = function (){
+
+                const ws_local = new WebSocket("ws://localhost:8001/api/v1/live-chat/ws");
+                ws_local.onmessage = function(event) {
+                    var messages = document.getElementById('messages')
+                    var message = document.createElement('li')
+                    var content = document.createTextNode(event.data)
+                    message.appendChild(content)
+                    messages.appendChild(message)
+                };
+                ws_local.onopen = function (event) {
+                    while (messages.length >0){
+                        ws_local.send(messages.pop())
+                    }
+                }
+                console.log(`state of the WS -> ${ws_local.readyState}` )
+                
+                return ws_local
+         
+
+            }
+            
+
+            function sendMessage(event) {
+                if (ws === null){
+                    //const token = document.getElementById("tokenText");
+
+                    //document.cookie = `X-Authorization=${token}`
+                    //console.log(document.cookie,"<<< COOKIE")
+                    //console.log(token)
+                    ws = connect_websocket()
+                    
+                }
+                const input = document.getElementById("messageText")
+                
+                if (ws.readyState !== 1 ){
+                    messages.push(input.value)
+                    console.log(messages)
+                    return 
+                }else{
+                    ws.send(input.value)
+                }
+                input.value = ''
+                
+                
+            }
+            
+
+       
+        </script>
+    </body>
+</html>

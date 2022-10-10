@@ -1,0 +1,4 @@
+*.pyc
+**/__picache__
+*.env
+build/*

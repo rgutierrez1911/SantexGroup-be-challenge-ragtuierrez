@@ -1,0 +1,64 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres_db
+      - DB_USER=admin
+      - DB_PASSWORD=admin
+      - DB_NAME=app
+      - PGPORT=8032
+    container_name: "db_app"
+    ports:
+      - '8032:8032'
+    volumes: 
+      - ./init_db:/docker-entrypoint-initdb.d/
+
+  mailhog:
+    image: mailhog/mailhog
+    logging:
+      driver: 'none'  # disable saving logs
+    container_name: "smtp_server"
+    ports:
+      - 8045:1025 # smtp server
+      - 8025:8025 # web ui
+
+
+      
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    # container_name: base_app
+    ports:
+      - 8000:8000 
+    
+    environment:
+      - DB_USER=admin
+      - DB_PASSWORD=admin
+      - DB_NAME=app
+      - DB_HOST=db
+      - MAIL_SERVER=mailhog
+      - REDIS_HOST=redis
+    depends_on:
+      - db
+      - mailhog
+    links:
+      - db
+      - mailhog
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - app.env
+
+ 
+  
+
+
+volumes:
+
+  db:
+    driver: local

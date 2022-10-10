@@ -1,0 +1,78 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "FastAPI",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "app.main:app",
+                "--reload",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8000",
+                "--log-config",
+                "log_conf.yml",
+                
+            ],
+            "jinja": true,
+            "cwd": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "API-KEY" : "01e5cb27e62c4fb1a39778227392ba79"
+            }
+
+            
+        },
+        {
+            "name": "Websocket FastAPI",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "websocket.main:app",
+                "--reload",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "8001",
+                "--log-config",
+                "log_conf.yml",
+            
+            ],
+            "jinja": true,
+            "cwd": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Python: Run Migrations",
+            "type": "python",
+            "request": "launch",
+            "module": "alembic",
+            "args": [
+                "upgrade",
+                "head"
+            ],
+            "cwd": "${workspaceFolder}",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "Python: Deque",
+            "type": "python",
+            "request": "launch",
+            "module": "pub_sub",
+            "args": [],
+            "jinja": true,
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "REDIS_HOST": "127.0.0.1",
+                "TOPIC_NAME": "ENQUE_BY_USER"
+            }
+        }
+    ]
+}
