@@ -44,6 +44,7 @@ class CompetitionTeams(OrmModel):
 class LeagueFilter:
   league_code : str = Query(...)
   team_name : str = Query(None)
+  partial_name :str = Query(None)
 
 class LeaguePlayer(OrmModel):
   id:int

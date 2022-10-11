@@ -29,10 +29,14 @@ async def import_competition_by_league_bs(
 def get_players_given_league_code_bs(
   db:Session,
   league_code :str,
-  team_name:str = None
+  team_name:str = None,
+  partial_name:str = None,
 ):
   
-  league_players=find_players_given_league_code(db=db , league_code=league_code , team_name=team_name)
+  league_players = find_players_given_league_code(db=db,
+                                                  league_code=league_code,
+                                                  team_name=team_name,
+                                                  partial_name=partial_name)
   
   if len(league_players)==0:
     raise HTTPException(status_code=404 , detail=f"The league code {league_code} doesn't exist")

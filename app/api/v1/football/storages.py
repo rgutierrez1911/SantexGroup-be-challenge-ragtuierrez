@@ -2,7 +2,7 @@ from typing import List
 from core.dbsetup import Competition,Teams,Players,Coachs , TeamsCompetition
 from .schema import CoachParser, CompetitionParser, CompetitionTeams, PlayerParser, TeamParser 
 from sqlalchemy.orm import Session
-
+from sqlalchemy import func
 
 def save_new_team(
   db:Session,
@@ -169,6 +169,7 @@ def find_players_given_league_code(
   db:Session,
   league_code:str,
   team_name:str = None,
+  partial_name:str = None
 )->List[Players]:
   players_league_db = db.query(
     Competition
@@ -188,6 +189,12 @@ def find_players_given_league_code(
   if team_name:
     players_league_db = players_league_db.filter(
       Teams.name == team_name
+    )
+  
+  if partial_name:
+    players_league_db = players_league_db.filter(
+      func.lower(Players.name).ilike(f"%{partial_name.lower()}%")
+
     )
     
   players_league_db:List[Players] = players_league_db.with_entities(

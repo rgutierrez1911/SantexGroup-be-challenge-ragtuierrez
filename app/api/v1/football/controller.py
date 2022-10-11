@@ -24,10 +24,8 @@ async def import_league(
     user_access: UserAccess = user_db_permitions(permitions=["ADMIN"]),
 
 ):
-  competition_id =await import_competition_by_league_bs(
-    db=user_access.db,
-    league=league_code)
-
+  competition_id = await import_competition_by_league_bs(db=user_access.db,
+                                                         league=league_code)
 
   return SuccessCreated(id = competition_id)
 
@@ -37,8 +35,10 @@ def get_players_given_league_code(
   args: LeagueFilter = Depends(),
   user_access: UserAccess = user_db_permitions(permitions=[]),
 ):
-  league_players=get_players_given_league_code_bs(db=user_access.db,
-                                   league_code=args.league_code, team_name=args.team_name)
+  league_players = get_players_given_league_code_bs(db=user_access.db,
+                                                    league_code=args.league_code,
+                                                    team_name=args.team_name,
+                                                    partial_name = args.partial_name)
   
   return {"data" : league_players}
   
@@ -73,7 +73,6 @@ def get_team_players(
                                                    team_name=args.team_name)
 
   return TeamsPlayersOut(
-
       players=players,
       coaches=coaches,
   )
