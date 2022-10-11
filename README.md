@@ -18,6 +18,8 @@ https://docs.docker.com/desktop/install/windows-install/
 Ubuntu:
 https://docs.docker.com/desktop/install/linux-install/
 
+# Rename ".env copy" to .env to add the corresponding env variables
+
 ### Docker usage ###
 ### BUILD ####
 docker-compose build
