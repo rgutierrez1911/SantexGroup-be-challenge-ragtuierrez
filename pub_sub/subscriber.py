@@ -9,8 +9,8 @@ publisher = RedisSubscriber(storage=storage, topic_name=topic_name)
 
 
 def main():
-    for data in publisher.listen():
-        print ( data)
+  for data in publisher.listen():
+    print (data)
         
 if __name__ == "__main__":
-    main()
+  main()

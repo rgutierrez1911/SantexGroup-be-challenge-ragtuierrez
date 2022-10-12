@@ -12,13 +12,12 @@ from commons.services.security import security_app , base_path
 from .api.v1.live_chat.controller import router as live_chat_router
 
 
-
 app = FastAPI(
     docs_url=None, redoc_url=None,
     title="WEBSOCKET - API V1.0",
     openapi_url="/swagger/openapi.json",
     swagger_ui_oauth2_redirect_url="/swagger/docs/oauth2-redirect",
-    )
+)
 
 
 app.add_middleware(
@@ -29,9 +28,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/ping" , status_code=200)
+
+@app.get("/ping", status_code=200)
 def ping_service():
-    return {"status": "success"}
+  return {"status": "success"}
 
 
 app.mount(path=base_path, app=security_app, name="security")
@@ -39,7 +39,7 @@ app.mount(path=base_path, app=security_app, name="security")
 app.include_router(router=live_chat_router, prefix="/api/v1/live-chat")
 
 
-documentation.generate_documentation(app=app , base_name= "/ws")
+documentation.generate_documentation(app=app, base_name="/ws")
 
 print()
 print ( "================ INITIALIZED WEBSOCKET SERVER ===================")

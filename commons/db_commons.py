@@ -62,22 +62,22 @@ def get_column_fields(
 
 ):
   for field_col in fields_columns:
-      current_field = model_fields.columns[field_col]
-      field_type = current_field.type
-      if isinstance(field_type, String):
-          annotations[current_field.name] = str
-          pydantic_name[current_field.name] = ""
+    current_field = model_fields.columns[field_col]
+    field_type = current_field.type
+    if isinstance(field_type, String):
+      annotations[current_field.name] = str
+      pydantic_name[current_field.name] = ""
 
-      elif isinstance(field_type, (Integer, BigInteger)):
-          annotations[current_field.name] = int
-          pydantic_name[current_field.name] = None
+    elif isinstance(field_type, (Integer, BigInteger)):
+      annotations[current_field.name] = int
+      pydantic_name[current_field.name] = None
 
-      elif isinstance(field_type, (Float, Numeric)):
-          annotations[current_field.name] = float
-          pydantic_name[current_field.name] = None
-      elif isinstance(field_type, Boolean):
-          annotations[current_field.name] = bool
-          pydantic_name[current_field.name] = None
+    elif isinstance(field_type, (Float, Numeric)):
+      annotations[current_field.name] = float
+      pydantic_name[current_field.name] = None
+    elif isinstance(field_type, Boolean):
+      annotations[current_field.name] = bool
+      pydantic_name[current_field.name] = None
           
 
 def get_custom_fields_columns(
@@ -132,15 +132,15 @@ def get_column_fields_additional(
 
   instrumented_ref = {}
   for var_name in dir(model):
-      current = getattr(model, var_name)
-      if isinstance(current, InstrumentedAttribute):
-          instrumented_ref[var_name] = current
+    current = getattr(model, var_name)
+    if isinstance(current, InstrumentedAttribute):
+      instrumented_ref[var_name] = current
 
   only_created: Set[str] = set(instrumented_ref.keys()) - column_names
 
   for created_field in only_created:
-      annotations[created_field] = str
-      pydantic_name[created_field] = None
+    annotations[created_field] = str
+    pydantic_name[created_field] = None
 
 
 def create_base_model_get_data(model: CommonFields,
@@ -157,14 +157,13 @@ def create_base_model_get_data(model: CommonFields,
   fields_columns = set(model_fields.columns.keys()) - not_assignable
   
   if getattr(model , "additional_filters"):
-    
     pass
   
   get_column_fields(
-      model_fields=model_fields,
-      pydantic_name=pydantic_name,
-      annotations=annotations,
-      fields_columns=fields_columns,
+    model_fields=model_fields,
+    pydantic_name=pydantic_name,
+    annotations=annotations,
+    fields_columns=fields_columns,
   )
 
   get_column_fields_additional(model=model,
@@ -176,8 +175,8 @@ def create_base_model_get_data(model: CommonFields,
                             annotations = annotations)
 
   dinamic_values = {
-      **pydantic_name,
-      "__annotations__": annotations
+    **pydantic_name,
+    "__annotations__": annotations
   }
 
   new_type = type(pydantic_model_name, (OrmModel,),  dinamic_values)

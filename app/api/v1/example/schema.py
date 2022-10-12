@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class base(BaseModel):
-    name :str
+  name :str
 
 class out(BaseModel):
-    message :str
+  message :str

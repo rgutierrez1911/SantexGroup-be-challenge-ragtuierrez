@@ -12,7 +12,7 @@ local_queue = RedisQueue(storage=storage, name=topic_name)
 
 
 def get_new_redis_queue(name :str)->RedisQueue:
-    return RedisQueue(storage=storage, name=name)
+  return RedisQueue(storage=storage, name=name)
 
 
 

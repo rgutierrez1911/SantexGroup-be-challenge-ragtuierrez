@@ -11,7 +11,7 @@ class WsListUsers(OrmModel):
 @dataclass
 class SearchProduct:
 
-    filter_current: bool = Query(True)
+  filter_current: bool = Query(True)
 
 
 class SendMessageApi(OrmModel):

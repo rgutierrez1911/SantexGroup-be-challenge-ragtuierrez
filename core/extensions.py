@@ -25,22 +25,22 @@ session = scoped_session(current_session)
 
 
 def yield_session()->Session:
-    try :
-        yield session
-    finally:
-        print("CLOSING DB SESSION")
-        session.close()
+  try :
+    yield session
+  finally:
+    print("CLOSING DB SESSION")
+    session.close()
 
 def get_session():
-    return session
+  return session
 
 
 def session_decorator(func: Callable):
-    @wraps(func)
-    def wrapper(*args,  **kwargs):
-        try:
-            kwargs["db"] = session
-            return func(*args, **kwargs)
-        finally:
-            session.close()
-    return wrapper
+  @wraps(func)
+  def wrapper(*args,  **kwargs):
+    try:
+      kwargs["db"] = session
+      return func(*args, **kwargs)
+    finally:
+      session.close()
+  return wrapper

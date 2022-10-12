@@ -43,13 +43,12 @@ class NamedCommonFields(BaseNamedCommonFields):
     current_query = db.query(cls).filter(*common_local_filter)
 
     if current_id:
-        current_query = current_query.filter(cls.id == current_id)
+      current_query = current_query.filter(cls.id == current_id)
     elif current_name:
-        current_query = current_query.filter(
-            cls.name.ilike(f"%{current_name}%"))
+      current_query = current_query.filter(cls.name.ilike(f"%{current_name}%"))
     if first:
-        only_one: BaseNamedCommonFields = current_query.first()
-        return only_one
+      only_one: BaseNamedCommonFields = current_query.first()
+      return only_one
     multiple: List[NamedCommonFields] = current_query.all()
     return multiple
   

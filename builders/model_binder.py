@@ -4,7 +4,6 @@ from commons.db_commons import create_base_model_data, create_base_model_get_dat
 from core.general.schemas import OrmModel, Success, SuccessCreated, SuccessUpdated
 from db_orm_models.data.common import CommonFields, CustomField, NamedCommonFields, Session
 from fastapi import APIRouter
-from db_orm_models.data.school.grades import Grades
 from dependencies.user_dependencies import UserAccess, user_db_permitions
 from .exceptions import DbNotFoundException
 from db_orm_models.data.common import to_dict
@@ -90,7 +89,7 @@ def get_list_orm_route_common(
       for row in model_data["data"]:
         field_name, field = custom_field
         
-        field_data = field.get_data(model = Grades , db=user_access.db, value=row.id)
+        field_data = field.get_data(model = model , db=user_access.db, value=row.id)
         setattr(row, field_name, field_data)
 
     return model_data
